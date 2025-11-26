@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Life Recicla - Reciclagem Inteligente</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body id="body" data-theme="dark">
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title animate-fade-in">Green Life Recicla</h1>
+            <p class="hero-subtitle animate-fade-in-delay">Ação Extensionista, em parceria com a ONG Recicla Capixaba</p>
+            <button class="cta-button animate-fade-in-delay-2" onclick="scrollToSection('calculator')">
+                Calcule Seu Impacto
+                <span class="button-arrow">→</span>
+            </button>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Green Life Recicla</div>
+            <ul class="nav-menu">
+                <li><a href="#home" onclick="scrollToSection('home')">Início</a></li>
+                <li><a href="#calculator" onclick="scrollToSection('calculator')">Calcular</a></li>
+                <li><a href="#about" onclick="scrollToSection('about')">Sobre</a></li>
+                <li><a href="#tips" onclick="scrollToSection('tips')">Dicas</a></li>
+                <li><a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a></li>
+                <li><a href="#impact" onclick="scrollToSection('impact')">Impacto</a></li>
+                <li><a href="#map" onclick="scrollToSection('map')">Pontos de Reciclagem</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">Por que Reciclar?</h2>
+            <div class="cards-grid">
+                <div class="card animate-on-scroll">
+                    <div class="card-icon">🌱</div>
+                    <h3>Preservação Ambiental</h3>
+                    <p>Reduz a poluição e preserva os recursos naturais para as futuras gerações.</p>
+                </div>
+                <div class="card animate-on-scroll">
+                    <div class="card-icon">♻️</div>
+                    <h3>Economia Circular</h3>
+                    <p>Transforma resíduos em novos produtos, criando um ciclo sustentável.</p>
+                </div>
+                <div class="card animate-on-scroll">
+                    <div class="card-icon">💚</div>
+                    <h3>Consciência Coletiva</h3>
+                    <p>Cada ação individual contribui para um impacto positivo global.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="impact" id="impact">
+        <div class="container">
+            <h2 class="section-title">Impactos</h2>
+        </div>
+    </section>
+
+    <!-- Impact Calculator Section -->
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <div class="impact-calculator">
+                <h3 class="calculator-title">Calcule Seu Impacto</h3>
+                <p class="calculator-subtitle">Digite o que você vai reciclar e descubra seu impacto positivo no planeta!</p>
+                
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="materialType">Tipo de Material</label>
+                        <select id="materialType" class="material-select">
+                            <option value="">Selecione um material</option>
+                            <option value="plastico">Plástico (PET, PEAD, etc.)</option>
+                            <option value="papel">Papel e Papelão</option>
+                            <option value="vidro">Vidro</option>
+                            <option value="metal">Metal (Alumínio, Aço)</option>
+                            <option value="organico">Resíduos Orgânicos</option>
+                            <option value="eletronico">Eletrônicos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">Quantidade (kg)</label>
+                        <input type="number" id="quantity" class="quantity-input" placeholder="Ex: 10" min="0" step="0.1" onkeypress="if(event.key === 'Enter') calculateImpact()">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateImpact()">
+                        Calcular Impacto
+                        <span class="button-icon">🌱</span>
+                    </button>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-container" id="resultsContainer" style="display: none;">
+                    <h4 class="results-title">Seu Impacto Positivo:</h4>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-icon">📊</div>
+                            <div class="result-value" id="reductionPercent">0%</div>
+                            <div class="result-label">Redução de Emissões</div>
+                            <div class="result-description" id="reductionDesc"></div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-icon">♻️</div>
+                            <div class="result-value" id="recycledAmount">0 kg</div>
+                            <div class="result-label">Material Reciclado</div>
+                            <div class="result-description" id="recycledDesc"></div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-icon">🌍</div>
+                            <div class="result-value" id="worldImpact">0</div>
+                            <div class="result-label">Impacto Global</div>
+                            <div class="result-description" id="worldDesc"></div>
+                        </div>
+                    </div>
+                    <button class="reset-button" onclick="resetCalculator()">Calcular Novamente</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips and Quiz Section -->
+    <section class="tips-quiz-section" id="tips">
+        <div class="container">
+            <div class="tips-quiz-grid">
+                <!-- Dicas de Reciclagem -->
+                <div class="tips-column">
+                    <h2 class="section-title">Dicas de Reciclagem</h2>
+                    <div class="tips-container">
+                        <div class="tip-item animate-on-scroll">
+                            <div class="tip-number">01</div>
+                            <div class="tip-content">
+                                <h3>Separe os Materiais</h3>
+                                <p>Organize plástico, papel, vidro e metal em recipientes separados.</p>
+                            </div>
+                        </div>
+                        <div class="tip-item animate-on-scroll">
+                            <div class="tip-number">02</div>
+                            <div class="tip-content">
+                                <h3>Lave Antes de Reciclar</h3>
+                                <p>Remova resíduos de alimentos para facilitar o processo de reciclagem.</p>
+                            </div>
+                        </div>
+                        <div class="tip-item animate-on-scroll">
+                            <div class="tip-number">03</div>
+                            <div class="tip-content">
+                                <h3>Conheça os Símbolos</h3>
+                                <p>Aprenda a identificar os códigos de reciclagem nos produtos.</p>
+                            </div>
+                        </div>
+                        <div class="tip-item animate-on-scroll">
+                            <div class="tip-number">04</div>
+                            <div class="tip-content">
+                                <h3>Reduza o Consumo</h3>
+                                <p>Prefira produtos com menos embalagens e reutilize sempre que possível.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz de Reciclagem -->
+                <div class="quiz-column" id="quiz">
+                    <h2 class="section-title">Quiz de Reciclagem</h2>
+                    <p class="quiz-intro">Teste seus conhecimentos sobre reciclagem e descubra o quanto você sabe sobre sustentabilidade!</p>
+                    
+                    <div class="quiz-container" id="quizContainer">
+                        <div class="quiz-start" id="quizStart">
+                            <div class="quiz-icon">🎮</div>
+                            <h3>Desafio de Reciclagem</h3>
+                            <p>Responda as perguntas e descubra sua pontuação!</p>
+                            <button class="start-quiz-button" onclick="startQuiz()">Começar Quiz</button>
+                        </div>
+                        
+                        <div class="quiz-content" id="quizContent" style="display: none;">
+                            <div class="quiz-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <span class="progress-text" id="progressText">Pergunta 1 de 5</span>
+                            </div>
+                            
+                            <div class="question-container" id="questionContainer">
+                                <h3 class="question-text" id="questionText"></h3>
+                                <div class="options-container" id="optionsContainer"></div>
+                            </div>
+                            
+                            <button class="next-button" id="nextButton" onclick="nextQuestion()" style="display: none;">Próxima Pergunta</button>
+                        </div>
+                        
+                        <div class="quiz-results" id="quizResults" style="display: none;">
+                            <div class="results-header">
+                                <div class="score-icon" id="scoreIcon">🏆</div>
+                                <h3 class="score-title" id="scoreTitle">Parabéns!</h3>
+                                <div class="score-value" id="scoreValue">0/5</div>
+                                <div class="score-message" id="scoreMessage"></div>
+                            </div>
+                            
+                            <div class="quiz-tips-container" id="tipsContainer">
+                                <h4>💡 Dicas para Melhorar:</h4>
+                                <div class="tips-list" id="tipsList"></div>
+                            </div>
+                            
+                            <button class="restart-quiz-button" onclick="restartQuiz()">Fazer Quiz Novamente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section" id="map">
+        <div class="container">
+            <h2 class="section-title">Pontos de Reciclagem</h2>
+            <p class="map-subtitle">Encontre os pontos de coleta seletiva em Vitória e Vila Velha. Clique nos marcadores para ver mais informações.</p>
+            <div class="map-container-wrapper">
+                <div id="recyclingMap"></div>
+                <div class="map-info-panel" id="mapInfoPanel">
+                    <div class="map-info-content">
+                        <button class="close-info-btn" id="closeInfoBtn" onclick="closeMapInfo()">×</button>
+                        <h3 id="infoTitle"></h3>
+                        <p class="info-address" id="infoAddress"></p>
+                        <div class="info-materials">
+                            <h4>Materiais Aceitos:</h4>
+                            <ul id="infoMaterials"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Bot -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h3>ROCKET</h3>
+            <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    Olá! Eu sou o Rocket Raccoon, seu assistente de reciclagem! Como posso ajudar você hoje?
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="chatInput" placeholder="Digite sua mensagem..." onkeypress="handleChatKeyPress(event)" autocomplete="off">
+            <button onclick="sendMessage()" class="send-button" title="Enviar mensagem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Plataforma Digital Interativa de Educação e Apoio à Recicla Capixaba</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
