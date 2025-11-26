@@ -1275,7 +1275,7 @@ function initializeRecyclingMap() {
 
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
+        attribution: '',
         maxZoom: 19
     }).addTo(recyclingMap);
 

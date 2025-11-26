@@ -1222,6 +1222,11 @@ body {
     left: 0;
 }
 
+/* Hide map attribution */
+.leaflet-control-attribution {
+    display: none !important;
+}
+
 @media (max-width: 768px) {
     .map-container-wrapper {
         height: 500px;
