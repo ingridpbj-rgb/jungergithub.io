@@ -1598,29 +1598,7 @@ body {
     transform: translateY(0) scale(0.98);
 }
 
-/* Footer */
-.footer {
-    background: var(--dark-green);
-    color: white;
-    text-align: center;
-    padding: 2rem;
-    transition: background-color 0.3s ease;
-}
-
-.footer p {
-    margin: 0.5rem 0;
-}
-
-.footer-authority {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    font-weight: 500;
-    margin-top: 0.75rem !important;
-}
-
-.footer {
-    background: #0f3d26;
-}
+/* Footer - Removed */
 
 /* Responsive */
 @media (max-width: 768px) {
